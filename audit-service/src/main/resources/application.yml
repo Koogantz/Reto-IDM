@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: audit-service
+  profiles:
+    active: local
+  r2dbc:
+    url: r2dbc:h2:mem:///auditdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    pool:
+      initial-size: 5
+      max-size: 20
+    initialization-mode: always
+  main:
+    web-application-type: reactive
+
+server:
+  port: 8081
+
+idm:
+  local:
+    secrets:
+      audit-service-api-key: local-audit-key
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
