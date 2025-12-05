@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  audit-service:
+    build:
+      context: .
+      dockerfile: audit-service/Dockerfile
+    container_name: audit-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      IDM_LOCAL_SECRETS_AUDIT-SERVICE-API-KEY: local-audit-key
+
+  order-service:
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    container_name: order-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      IDM_LOCAL_SECRETS_AUDIT-SERVICE-BASE-URL: http://audit-service:8081
+      IDM_LOCAL_SECRETS_AUDIT-SERVICE-API-KEY: local-audit-key
+    depends_on:
+      - audit-service
